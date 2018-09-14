@@ -1,0 +1,29 @@
+version: "3.1"
+services:
+  bot:
+    build: .
+    image: newporn-bot
+    restart: always
+    environment:
+      - MONGO_HOST=mongo
+      - BOT_TOKEN_FILE=/run/secrets/bot_token
+    secrets:
+      - bot_token
+    depends_on:
+      - mongo
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+volumes:
+  mongodb:
+  mongodb_config:
+secrets:
+  bot_token:
+    file: bot_token.secret
