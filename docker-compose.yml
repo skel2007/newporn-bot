@@ -6,9 +6,9 @@ services:
     restart: always
     environment:
       - MONGO_HOST=mongo
-      - BOT_TOKEN_FILE=/run/secrets/bot_token
+      - BOT_TOKEN_FILE=/run/secrets/bot_token_file
     secrets:
-      - bot_token
+      - bot_token_file
     depends_on:
       - mongo
     links:
@@ -25,5 +25,5 @@ volumes:
   mongodb:
   mongodb_config:
 secrets:
-  bot_token:
+  bot_token_file:
     file: bot_token.secret
