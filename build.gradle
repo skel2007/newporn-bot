@@ -53,5 +53,5 @@ jar {
         attributes 'Main-Class': 'com.github.skel2007.newporn.MainKt'
     }
 
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }
