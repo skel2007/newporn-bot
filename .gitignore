@@ -26,6 +26,8 @@ hs_err_pid*
 build/
 !gradle-wrapper.jar
 
+!libs/*.jar
+
 *.iml
 .idea/
 out/
