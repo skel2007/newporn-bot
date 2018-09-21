@@ -11,6 +11,7 @@ import org.litote.kmongo.getCollection
 import org.litote.kmongo.util.KMongoUtil.idFilterQuery
 import org.slf4j.LoggerFactory
 import java.time.Instant
+import javax.inject.Inject
 
 /**
  * @author skel
@@ -38,7 +39,7 @@ fun Message.toPost(): Post? {
     }
 }
 
-class PostsDao(db: MongoDatabase) {
+class PostsDao @Inject constructor(db: MongoDatabase) {
 
     private val logger = LoggerFactory.getLogger(PostsDao::class.java)
 

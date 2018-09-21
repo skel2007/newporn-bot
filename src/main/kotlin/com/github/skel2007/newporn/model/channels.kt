@@ -9,6 +9,7 @@ import org.litote.kmongo.ensureIndex
 import org.litote.kmongo.findOneById
 import org.litote.kmongo.getCollection
 import org.litote.kmongo.util.KMongoUtil
+import javax.inject.Inject
 
 /**
  * @author skel
@@ -20,7 +21,7 @@ fun Message.toChannel(admins: List<Long>): Channel {
     return Channel(chat.id, chat.username!!, admins)
 }
 
-class ChannelsDao(db: MongoDatabase) {
+class ChannelsDao @Inject constructor(db: MongoDatabase) {
 
     internal val collection = db.getCollection<Channel>("channels")
 
