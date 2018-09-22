@@ -2,7 +2,7 @@ version: "3.1"
 services:
   bot:
     build: .
-    image: newporn-bot
+    image: skel2007/newporn-bot
     restart: always
     environment:
       - MONGO_HOST=mongo
