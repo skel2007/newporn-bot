@@ -37,6 +37,7 @@ class NewpornBot @Inject constructor(
 
             dispatch {
                 channel(this@NewpornBot::channelPost)
+                command("start", this@NewpornBot::start)
                 command("top", this@NewpornBot::top)
                 callbackQuery("channel_", this@NewpornBot::topChannel)
                 callbackQuery("hashtag_", this@NewpornBot::topChannelHashtag)
@@ -65,10 +66,25 @@ class NewpornBot @Inject constructor(
         update.editedChannelPost?.let(block)
     }
 
+    private fun start(bot: Bot, update: Update) {
+        bot.sendMessage(
+                chatId = update.message!!.chat.id,
+                text = "Приветствую тебя, моя госпожа")
+    }
+
     private fun top(bot: Bot, update: Update) {
         val userId = update.message!!.from!!.id
+        val chatId = update.message!!.chat.id
 
         val channels = channelsDao.findByAdminId(userId)
+        if (channels.isEmpty()) {
+            bot.sendMessage(
+                    chatId = chatId,
+                    text = "К сожалению, у меня нет постов ни с одного канала, моя госпожа")
+
+            return
+        }
+
         val buttons = channels.map { channel ->
             listOf(InlineKeyboardButton(
                     text = channel.url,
@@ -76,12 +92,13 @@ class NewpornBot @Inject constructor(
         }
 
         bot.sendMessage(
-                chatId = update.message!!.chat.id,
-                text = "Выберите канал",
+                chatId = chatId,
+                text = "Выбери канал, моя госпожа",
                 replyMarkup = InlineKeyboardMarkup(buttons))
     }
 
     private fun topChannel(bot: Bot, update: Update) {
+        val chatId = update.callbackQuery!!.message!!.chat.id
         val channelId = update.callbackQuery!!.data.substring("channel_".length).toLong()
 
         val interval = interval(Instant.now())
@@ -96,6 +113,14 @@ class NewpornBot @Inject constructor(
                 .take(5)
                 .toList()
 
+        if (hashtags.isEmpty()) {
+            bot.sendMessage(
+                    chatId = chatId,
+                    text = "К сожалению, у меня нет статистики с этого канала, моя госпожа")
+
+            return
+        }
+
         val buttons = hashtags.map { hashtag ->
             listOf(InlineKeyboardButton(
                     text = "${hashtag.key}: ${hashtag.value}",
@@ -103,8 +128,8 @@ class NewpornBot @Inject constructor(
         }
 
         bot.sendMessage(
-                chatId = update.callbackQuery!!.message!!.chat.id,
-                text = "Выберите хэштег",
+                chatId = chatId,
+                text = "Выбери хэштег, моя госпожа",
                 replyMarkup = InlineKeyboardMarkup(buttons))
     }
 
