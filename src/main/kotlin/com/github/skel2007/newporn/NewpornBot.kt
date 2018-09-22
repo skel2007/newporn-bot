@@ -65,7 +65,7 @@ class NewpornBot @Inject constructor(
         update.editedChannelPost?.let(block)
     }
 
-    private fun top(bot: Bot, update: Update, args: List<String>) {
+    private fun top(bot: Bot, update: Update) {
         val userId = update.message!!.from!!.id
 
         val channels = channelsDao.findByAdminId(userId)
@@ -91,8 +91,10 @@ class NewpornBot @Inject constructor(
                 .groupingBy { it.first }
                 .eachCount()
                 .entries
+                .asSequence()
                 .sortedByDescending { it.value }
                 .take(5)
+                .toList()
 
         val buttons = hashtags.map { hashtag ->
             listOf(InlineKeyboardButton(
@@ -118,6 +120,7 @@ class NewpornBot @Inject constructor(
 
             val posts = postsDao.findByChannelId(channelId, interval.first, interval.second, hashtag)
             val text = posts
+                    .asSequence()
                     .map { "• [${it.title}](https://t.me/${channel.url}/${it._id.messageId})" }
                     .joinToString("\n")
 
