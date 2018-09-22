@@ -1,4 +1,4 @@
-package com.github.skel2007.newporn.model
+package com.github.skel2007.newporn
 
 import com.github.skel2007.newporn.NewpornBot.Companion.interval
 import com.github.skel2007.newporn.NewpornBot.Companion.zoneId
@@ -19,8 +19,8 @@ class NewpornBotTest {
 
     @Test
     fun interval() {
-        val thisWeek = Pair("2018-09-17T00:00:00".toInstant(), "2018-09-24T00:00:00".toInstant());
-        val previousWeek = Pair("2018-09-10T00:00:00".toInstant(), "2018-09-17T00:00:00".toInstant());
+        val thisWeek = Pair("2018-09-17T00:00:00".toInstant(), "2018-09-24T00:00:00".toInstant())
+        val previousWeek = Pair("2018-09-10T00:00:00".toInstant(), "2018-09-17T00:00:00".toInstant())
 
         assertEquals(previousWeek, interval("2018-09-16T08:00:00".toInstant()))
         assertEquals(previousWeek, interval("2018-09-17T08:00:00".toInstant()))
