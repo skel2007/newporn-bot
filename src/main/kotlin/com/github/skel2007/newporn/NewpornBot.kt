@@ -13,9 +13,9 @@ import me.ivmg.telegram.dispatcher.command
 import me.ivmg.telegram.entities.InlineKeyboardButton
 import me.ivmg.telegram.entities.InlineKeyboardMarkup
 import me.ivmg.telegram.entities.Message
-import me.ivmg.telegram.entities.ParseMode
 import me.ivmg.telegram.entities.Update
 import me.ivmg.telegram.network.fold
+import java.io.File
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -134,6 +134,8 @@ class NewpornBot @Inject constructor(
     }
 
     private fun topChannelHashtag(bot: Bot, update: Update) {
+        val messageId = update.callbackQuery!!.message!!.messageId
+
         val data = update.callbackQuery!!.data
         val i = data.lastIndexOf("_")
 
@@ -146,14 +148,19 @@ class NewpornBot @Inject constructor(
             val posts = postsDao.findByChannelId(channelId, interval.first, interval.second, hashtag)
             val text = posts
                     .asSequence()
-                    .map { "• [${it.title}](https://t.me/${channel.url}/${it._id.messageId})" }
-                    .joinToString("\n")
+                    .map { "[[${it.title}](https://t.me/${channel.url}/${it._id.messageId})]" }
+                    .joinToString("")
 
-            bot.sendMessage(
+            val dir = createTempDir()
+
+            val file = File(dir, "$messageId.md")
+            file.writeText("*$hashtag*\n$text")
+
+            bot.sendDocument(
                     chatId = update.callbackQuery!!.message!!.chat.id,
-                    text = "*$hashtag*\n$text",
-                    parseMode = ParseMode.MARKDOWN,
-                    disableWebPagePreview = true)
+                    document = file)
+
+            dir.deleteRecursively()
         }
     }
 
