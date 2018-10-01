@@ -149,7 +149,7 @@ class NewpornBot @Inject constructor(
             val text = posts
                     .asSequence()
                     .map { "[[${it.title}](https://t.me/${channel.url}/${it._id.messageId})]" }
-                    .joinToString("")
+                    .joinToString("\n")
 
             val dir = createTempDir()
 
