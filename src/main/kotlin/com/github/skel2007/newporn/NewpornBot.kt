@@ -69,7 +69,7 @@ class NewpornBot @Inject constructor(
     private fun start(bot: Bot, update: Update) {
         bot.sendMessage(
                 chatId = update.message!!.chat.id,
-                text = "Приветствую тебя, моя госпожа")
+                text = "Добавьте меня в администраторы канала, статистику с которого вы хотите получать")
     }
 
     private fun top(bot: Bot, update: Update) {
@@ -80,7 +80,7 @@ class NewpornBot @Inject constructor(
         if (channels.isEmpty()) {
             bot.sendMessage(
                     chatId = chatId,
-                    text = "К сожалению, у меня нет постов ни с одного канала, моя госпожа")
+                    text = "К сожалению, у меня нет постов ни с одного канала")
 
             return
         }
@@ -93,7 +93,7 @@ class NewpornBot @Inject constructor(
 
         bot.sendMessage(
                 chatId = chatId,
-                text = "Выбери канал, моя госпожа",
+                text = "Выберите канал",
                 replyMarkup = InlineKeyboardMarkup(buttons))
     }
 
@@ -116,7 +116,7 @@ class NewpornBot @Inject constructor(
         if (hashtags.isEmpty()) {
             bot.sendMessage(
                     chatId = chatId,
-                    text = "К сожалению, у меня нет статистики с этого канала, моя госпожа")
+                    text = "К сожалению, у меня нет статистики с этого канала")
 
             return
         }
@@ -129,7 +129,7 @@ class NewpornBot @Inject constructor(
 
         bot.sendMessage(
                 chatId = chatId,
-                text = "Выбери хэштег, моя госпожа",
+                text = "Выберите хэштег",
                 replyMarkup = InlineKeyboardMarkup(buttons))
     }
 
