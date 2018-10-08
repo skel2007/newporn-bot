@@ -25,14 +25,7 @@ dependencies {
 
     implementation "org.litote.kmongo:kmongo:3.8.2"
 
-//    implementation 'io.github.seik.kotlin-telegram-bot:telegram:0.3.4'
-
-    // kotlin-telegram-bot + deps
-    implementation files("libs/telegram-1.0.jar")
-    implementation "com.squareup.retrofit2:retrofit:2.3.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.9.1"
-
+    implementation 'io.github.seik.kotlin-telegram-bot:telegram:0.3.5'
 
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
